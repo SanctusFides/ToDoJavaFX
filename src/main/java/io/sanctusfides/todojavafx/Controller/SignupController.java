@@ -5,6 +5,7 @@ import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import io.sanctusfides.todojavafx.Database.DatabaseHandler;
+import io.sanctusfides.todojavafx.Model.User;
 import javafx.fxml.FXML;
 
 import java.net.URL;
@@ -43,13 +44,24 @@ public class SignupController {
 
     @FXML
     void initialize() {
-        DatabaseHandler databaseHandler = new DatabaseHandler();
+
+        createUser();
+
+
 
         signupBtn.setOnAction(event -> {
-            JFXCheckBox selectedGender = signupMaleCheckBox.isSelected() ? signupMaleCheckBox : signupFemaleCheckBox;
 
-            databaseHandler.signUpUser(signupFirstNameFld.getText(), signupLastNameFld.getText(), signupUsernameFld.getText(),
-                    signupPasswordFld.getText(),signupLocationFld.getText(), selectedGender.getText());
         });
+    }
+
+    private void createUser() {
+        DatabaseHandler databaseHandler = new DatabaseHandler();
+
+        JFXCheckBox selectedGender = signupMaleCheckBox.isSelected() ? signupMaleCheckBox : signupFemaleCheckBox;
+
+        User user = new User(signupFirstNameFld.getText(), signupLastNameFld.getText(),signupUsernameFld.getText(),
+                signupPasswordFld.getText(),signupLocationFld.getText(), selectedGender.getText());
+
+        databaseHandler.signUpUser(user);
     }
 }
