@@ -2,10 +2,7 @@ package io.sanctusfides.todojavafx.Database;
 
 import io.sanctusfides.todojavafx.Model.User;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 
 import static io.sanctusfides.todojavafx.Database.Configs.*;
 
@@ -21,6 +18,32 @@ public class DatabaseHandler {
 
         dbConnection = DriverManager.getConnection(connectionString,dbUser, dbPass);
         return dbConnection;
+    }
+
+    public ResultSet getUser(User user) {
+        // ResultSet is the returned row from a SQL look up
+        ResultSet resultSet = null;
+        if (!user.getUserName().isEmpty() || !user.getPassword().isEmpty()) {
+            // Select all users where username and password match the entered values
+            // TODO add encryption to handle hashing password values
+            String query = "SELECT * FROM " + Constants.USERS_TABLE + " WHERE " + Constants.USERS_USERNAME +
+                    "=?" + "AND " + Constants.USERS_PASSWORD + "=?";
+
+            try {
+                PreparedStatement preparedStatement = getDbConnection().prepareStatement(query);
+                // Each of the number values in the setString funct correlate to the ?s in the Query statement above
+                preparedStatement.setString(1,user.getUserName());
+                preparedStatement.setString(2,user.getPassword());
+
+                resultSet = preparedStatement.executeQuery();
+            } catch (SQLException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        } else {
+            // TODO  turn this into a proper error label on the Login View
+            System.out.println("Please Enter Credentials");
+        }
+        return resultSet;
     }
 
     // Write
@@ -43,6 +66,8 @@ public class DatabaseHandler {
             e.printStackTrace();
         }
     }
+
+
 
     // Read
 }

@@ -1,6 +1,7 @@
 package io.sanctusfides.todojavafx.Model;
 
 public class User {
+
     private String firstName;
     private String lastName;
     private String userName;
@@ -65,5 +66,16 @@ public class User {
 
     public void setGender(String gender) {
         this.gender = gender;
+    }
+    @Override
+    public String toString() {
+        return "User{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", userName='" + userName + '\'' +
+                ", password='" + password + '\'' +
+                ", location='" + location + '\'' +
+                ", gender='" + gender + '\'' +
+                '}';
     }
 }

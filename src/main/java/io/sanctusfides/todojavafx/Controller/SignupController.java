@@ -44,13 +44,8 @@ public class SignupController {
 
     @FXML
     void initialize() {
-
-        createUser();
-
-
-
         signupBtn.setOnAction(event -> {
-
+            createUser();
         });
     }
 
