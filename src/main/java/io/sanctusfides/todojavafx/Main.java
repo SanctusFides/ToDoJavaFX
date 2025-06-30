@@ -1,20 +1,15 @@
 package io.sanctusfides.todojavafx;
 
+import io.sanctusfides.todojavafx.Model.Model;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
 public class Main extends Application {
     @Override
-    public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Fxml/login.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 700, 400);
-        stage.setTitle("Hello!");
-        stage.setScene(scene);
-        stage.show();
+    public void start(Stage stage) {
+        Model.getInstance().getViewFactory().showLoginWindow();
     }
 
     public static void main(String[] args) {

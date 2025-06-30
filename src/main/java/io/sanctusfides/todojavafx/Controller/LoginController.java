@@ -30,35 +30,42 @@ public class LoginController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        addListeners();
+    }
 
+    private void loginUser() {
+        String loginName = loginUserNameFld.getText().trim();
+        String loginPwd = loginPasswordFld.getText().trim();
+        User user = new User();
+        user.setUserName(loginName);
+        user.setPassword(loginPwd);
+
+        ResultSet userResult = Model.getInstance().getDatabaseHandler().getUser(user);
+        try {
+            if (userResult != null && userResult.isBeforeFirst()) {
+                System.out.println("login success");
+                Model.getInstance().getViewFactory().closeStage((Stage) loginBtn.getScene().getWindow());
+                Model.getInstance().getViewFactory().showAddItemScreen();
+            } else {
+                Shaker userNameShaker = new Shaker(loginUserNameFld);
+                userNameShaker.shake();
+                Shaker passwordShaker = new Shaker(loginPasswordFld);
+                passwordShaker.shake();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void addListeners() {
         loginSignupBtn.setOnAction(event -> {
             Model.getInstance().getViewFactory().closeStage((Stage) loginSignupBtn.getScene().getWindow());
             Model.getInstance().getViewFactory().showSignupWindow();
         });
 
-        loginBtn.setOnAction(event -> {
-            String loginName = loginUserNameFld.getText().trim();
-            String loginPwd = loginPasswordFld.getText().trim();
-            User user = new User();
-            user.setUserName(loginName);
-            user.setPassword(loginPwd);
-
-            ResultSet userResult = Model.getInstance().getDatabaseHandler().getUser(user);
-            try {
-                if (userResult != null && userResult.isBeforeFirst()) {
-                    Model.getInstance().getViewFactory().closeStage((Stage) loginBtn.getScene().getWindow());
-                    Model.getInstance().getViewFactory().showAddItemScreen();
-                    System.out.println("login success");
-                } else {
-                    Shaker userNameShaker = new Shaker(loginUserNameFld);
-                    userNameShaker.shake();
-                    Shaker passwordShaker = new Shaker(loginPasswordFld);
-                    passwordShaker.shake();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        });
+        //
+        loginBtn.setOnAction(event -> loginUser());
     }
+
 
 }

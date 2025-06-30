@@ -7,18 +7,23 @@ import javafx.stage.Stage;
 
 public class ViewFactory {
 
-
+    // launches the login window which is the first thing that Main calls
+    public void showLoginWindow() {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Fxml/Login.fxml"));
+        createStage(loader);
+    }
+    // loads the user signup window
     public void showSignupWindow() {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Fxml/signup.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Fxml/Signup.fxml"));
         createStage(loader);
     }
-
+    // loads the AddItem view after user signs in or needs to add new
     public void showAddItemScreen() {
-        FXMLLoader loader = new FXMLLoader();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Fxml/AddItem.fxml"));
         createStage(loader);
     }
 
-
+    // reusable create stage
     private void createStage(FXMLLoader loader) {
         Scene scene = null;
         try {
